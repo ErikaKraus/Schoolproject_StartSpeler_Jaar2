@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Kassa.Models"
+             x:Class="Kassa.Views.KlantAfrekenenPage"
+             xmlns:viewmodels="clr-namespace:Kassa.ViewModels"
+             x:DataType="viewmodels:KlantAfrekenenViewModel"
+             Title="{Binding Title}">
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <VerticalStackLayout>
+        <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+            <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+            <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+            <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+        </Grid>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="5" Padding="5">
+
+                <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*,*" RowSpacing="5" ColumnSpacing="5">
+                    <Label Text="Geef KlantNaam: " Grid.Row="0" Grid.Column="0"/>
+                    <Entry Placeholder="klantnaam" Grid.Row="0" Grid.Column="1" Text="{Binding Zoekterm}"/>
+                    <Button Text="Zoek Klant" Grid.Row="0" Grid.Column="2" Command="{Binding ZoekGebruikersCommand}"/>
+                    <Button Text="Betaald!" Grid.Row="0" Grid.Column="3" Command="{Binding MarkeerBetaaldCommand}"/>
+
+                    <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
+                        <CollectionView ItemsSource="{Binding Gebruikers}" EmptyView="Nobody Found" 
+                                SelectionMode="Single" SelectedItem="{Binding selected_gebruiker}" SelectionChangedCommand="{Binding GebruikerGeselecteerdCommand}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Gebruiker">
+                                    <HorizontalStackLayout>
+                                        <Label Text="{Binding Naam}"/>
+                                        <Label Text="_"/>
+                                        <Label Text="{Binding Voornaam}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Frame>
+
+                    <Frame Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Afrekening}"/>
+                            <HorizontalStackLayout>
+                                <Label Text="TotaalBedrag: "/>
+                                <Label Text="{Binding TotaalBedragString}"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+    </VerticalStackLayout>
+    
+</ContentPage>

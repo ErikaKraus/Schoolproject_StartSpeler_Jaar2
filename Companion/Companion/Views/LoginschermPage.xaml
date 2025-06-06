@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Companion.ViewModels"
+             xmlns:models="clr-namespace:Companion.Models"
+             x:DataType="viewmodels:LoginschermViewModel"
+             x:Class="Companion.Views.LoginschermPage">
+
+    <Grid RowDefinitions="300,auto,50,*">
+        <Image Grid.Row="0" Source="startspeler_plezier.png" VerticalOptions="Start" WidthRequest="500" />
+
+        <VerticalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10">
+            <Label Text="Inloggen" FontSize="Title" HorizontalOptions="Center" Margin="0,0,10,10"/>
+            <Frame CornerRadius="30" Padding="0" Margin="5" WidthRequest="300" BorderColor="#293275">
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Image Source="inlog_account.png" HeightRequest="30" WidthRequest="30"/>
+                    <Entry Placeholder="E-mailadres" Text="{Binding Email}" WidthRequest="200" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Frame>
+            <Frame CornerRadius="30" Padding="0" Margin="5" BorderColor="#293275" WidthRequest="300">
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Image Source="inlog_password.png" HeightRequest="30" WidthRequest="30"/>
+                    <Entry Placeholder="Wachtwoord" Text="{Binding Password}" IsPassword="True" WidthRequest="200" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Frame>
+            <HorizontalStackLayout Margin="0,10,0,0" Padding="0">
+                <CheckBox IsChecked="False" />
+                <Label Text="Onthoud mij" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <Label Text="      "/>
+                <Label Text="Wachtwoord vergeten?" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <Button Grid.Row="2" Text="Inloggen" WidthRequest="100" Command="{Binding LoginCommand}" />
+
+        <HorizontalStackLayout Grid.Row="3" Padding="10" HorizontalOptions="CenterAndExpand" Margin="0,60,0,0">
+            <Label Text="Nieuwe gebruiker? "/>
+            <Label Text="Registreren" FontAttributes="Bold">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToRegistratiePageCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </Grid>
+    
+</ContentPage>

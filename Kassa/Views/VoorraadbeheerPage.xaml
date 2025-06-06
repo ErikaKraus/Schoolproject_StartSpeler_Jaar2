@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Kassa.Models"
+             xmlns:viewmodels="clr-namespace:Kassa.ViewModels"
+             x:DataType="viewmodels:VoorraadbeheerViewModel"
+             x:Class="Kassa.Views.VoorraadbeheerPage"
+             Title="VoorraadbeheerPage">
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <ScrollView>
+        <VerticalStackLayout>
+
+        <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+            <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+            <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+            <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+        </Grid>
+
+
+        <VerticalStackLayout Spacing="5" Padding="5">
+
+
+                <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*,*" RowSpacing="5" ColumnSpacing="5">
+
+                    <Picker ItemsSource="{Binding ArtikelTypes}" Grid.Row="0" Grid.Column="0" 
+                        SelectedItem="{Binding SelectedArtikelType}" />
+
+                    <Button Text="Toon Voorraad" Grid.Row="0" Grid.Column="1" Command="{Binding MaakvoorraadlijstCommand}" Margin="5" />
+                    <Button Text="Leegmaken" Grid.Row="0" Grid.Column="2" Command="{Binding MaakVeldenLeegCommand}" Margin="5" />
+                    <Button Text="Nieuw Artikel" Grid.Row="1" Grid.Column="2" Command="{Binding MaakNieuwArtikelCommand}" Margin="5" />
+                    <Button Text="Update Artikel" Grid.Row="0" Grid.Column="3" Command="{Binding UpdateArtikelCommand}" Margin="5" />
+                    <Button Text="Delete Artikel" Grid.Row="1" Grid.Column="3" Command="{Binding DeleteArtikelCommand}" Margin="5" />
+
+
+                    <CollectionView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Artikels}" EmptyView="No items to display" SelectionMode="Single"
+                                SelectionChangedCommand="{Binding ArtikelGeselecteerdCommand}" SelectedItem="{Binding SelectedArtikel}">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Artikel">
+                                <Grid>
+                                    <Label Text="{Binding Naam}" FontSize="20" />
+                                    <Label Text="{Binding Voorraad}" FontSize="20" HorizontalTextAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Frame Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" HeightRequest="330" Grid.ColumnSpan="2" BackgroundColor="LightGray" BorderColor="DarkGray" Padding="5" Margin="5" CornerRadius="5">
+                        <StackLayout Spacing="15">
+                            <Grid RowDefinitions="*,*,*,*,*,*" ColumnDefinitions="*,*" RowSpacing="10">
+                                <Label Grid.Row="0" Grid.Column="0" Text="ArtikelNaam: "/>
+                                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding SelectedArtikel.Naam}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Voorraad: "/>
+                                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding SelectedArtikel.Voorraad}"/>
+                                <Label Grid.Row="2" Grid.Column="0" Text="Prijs: "/>
+                                <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SelectedArtikel.Prijs}"/>
+                                <Label Grid.Row="3" Grid.Column="0" Text="Logo: "/>
+                                <Entry Grid.Row="3" Grid.Column="1" Text="{Binding SelectedArtikel.Logo}"/>
+                                <Label Grid.Row="4" Grid.Column="0" Text="Info: "/>
+                                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding SelectedArtikel.Info}"/>
+                                <Label Grid.Row="5" Grid.Column="0" Text="Type: "/>
+                                <Picker Grid.Row="5" Grid.Column="1" ItemsSource="{Binding ArtikelTypes}"  SelectedItem="{Binding SelectedArtikel.Type}" />
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+
+        </VerticalStackLayout>
+            
+            
+        
+
+        </ScrollView>
+        
+</ContentPage>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Kassa.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Kassa.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Kassa">
+ 
+    
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginschermPage}"
+        Route="LoginschermPage"/>  
+
+    <ShellContent
+           Title="HomePage"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="HomePage" />
+
+    <ShellContent
+        Title="Bestelmenu"
+        ContentTemplate="{DataTemplate views:BestelmenuPage}"
+        Route="BestelmenuPage" />
+
+    <ShellContent
+        Title="Voorraadbeheer"
+        ContentTemplate="{DataTemplate views:VoorraadbeheerPage}"
+        Route="VoorraadbeheerPage" />
+
+    <ShellContent
+        Title="Lopende bestellingen"
+        ContentTemplate="{DataTemplate views:ToDoBestellingPage}"
+        Route="ToDoBestellingPage" />
+
+    <ShellContent
+        Title="Klant afrekenen"
+        ContentTemplate="{DataTemplate views:KlantAfrekenenPage}"
+        Route="KlantAfrekenenPage" />
+
+    <ShellContent
+        Title="Salesoverzicht"
+        ContentTemplate="{DataTemplate views:SalesPage}"
+        Route="SalesPage" />
+
+    <ShellContent
+        Title="Eventbeheer"
+        ContentTemplate="{DataTemplate views:EventbeheerPage}"
+        Route="EventbeheerPage" />
+    
+
+    <ShellContent
+       Title="Deelnemers inschrijven"
+       ContentTemplate="{DataTemplate views:EventInschrijvingPage}"
+       Route="EventInschrijvingPage" />
+
+    <ShellContent
+       Title="Eventgeschiedenis"
+       ContentTemplate="{DataTemplate views:EventgeschiedenisPage}"
+       Route="EventgeschiedenisPage" />
+
+    <ShellContent
+      Title="Gebruikersrollen"
+      ContentTemplate="{DataTemplate views:RollenbeheerPage}"
+      Route="RollenbeheerPage" />
+
+
+
+    <ShellContent
+    Title="Thema"
+    ContentTemplate="{DataTemplate views:ThemaPage}"
+    Route="ThemaPage" />
+
+
+
+</Shell>

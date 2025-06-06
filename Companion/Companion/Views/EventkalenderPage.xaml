@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Companion.Models"
+             xmlns:viewmodels="clr-namespace:Companion.ViewModels"
+             xmlns:converters="clr-namespace:Companion.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viewmodels:EventkalenderViewModel"
+             x:Class="Companion.Views.EventkalenderPage"
+             x:Name="EventKalenderPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <converters:GreaterThanZeroConverterVolzet x:Key="GreaterThanZeroConverterVolzet"/>
+        <converters:GreaterThanZeroConverterInschrijven x:Key="GreaterThanZeroConverterInschrijven"/>
+        <converters:TimeSpanToShortTimeConverter x:Key="TimeSpanToShortTimeConverter"/>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <Grid VerticalOptions="Center">
+            <Image Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid RowDefinitions="40,40,*,auto" Margin="10">
+        <Label Grid.Row="0" Text="Eventkalender" FontSize="Title" HorizontalOptions="Center" />
+
+        <!-- Community filter -->
+        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
+            <Picker SelectedItem="{Binding SelectedCommunity}" ItemsSource="{Binding Communities}" WidthRequest="150" Title="Event Type" >
+                <Picker.ItemDisplayBinding>
+                    <Binding Path="Naam" />
+                </Picker.ItemDisplayBinding>
+            </Picker>
+            <Button Text="Alle events" Command="{Binding ToonAlleEventsCommand}" />
+        </HorizontalStackLayout>
+
+        <!-- CollectionView for grouped events -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding GroupedEvenemenenten}" IsGrouped="True">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="models:EvenementGroup">
+                    <Grid Padding="5" BackgroundColor="LightGray">
+                        <Label Text="{Binding Datum, StringFormat='{0:dddd, dd MMMM yyyy}'}" FontAttributes="Bold" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Evenement">
+                    <Frame BorderColor="LightGray" CornerRadius="5" Padding="10" Margin="5">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference EventKalenderPage}, Path=BindingContext.ShowPopupCommand}" CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <Grid RowDefinitions="auto,auto, auto,auto">
+                            <Image Grid.Row="0" Source="{Binding Community.AfbeeldingPad}" HeightRequest="100"  />
+                            <Label Grid.Row="1" Text="{Binding Naam}" FontAttributes="Bold"/>
+                            <HorizontalStackLayout Grid.Row="2">
+                                <Label Text="{Binding Startuur, Converter={StaticResource TimeSpanToShortTimeConverter}}" />
+                                <Label Text=" - " />
+                                <Label Text="{Binding Einduur, Converter={StaticResource TimeSpanToShortTimeConverter}}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Row="3">
+                                <Label Text="Plaatsen: "/>
+                                <Label Text="{Binding BeschikbarePlaatsen}" />
+                                <Label Text="/" />
+                                <Label Text="{Binding MaxDeelnemersEvent}" />
+                                <Label Text=" Volzet!" TextColor="Red" FontAttributes="Bold" IsVisible="{Binding BeschikbarePlaatsen, Converter={StaticResource GreaterThanZeroConverterVolzet}}"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" HorizontalOptions="Fill" VerticalOptions="Center" Color="{StaticResource Primary}" Grid.RowSpan="1" Grid.ColumnSpan="1"/>
+
+        <!-- Popup for event details -->
+        <ContentView IsVisible="{Binding IsPopupOpen}" BackgroundColor="Transparent" Padding="20" Grid.Row="2">
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="10" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="350" HeightRequest="350">
+                <Grid RowDefinitions="45,45,auto,auto,auto,auto,auto,50" ColumnDefinitions="*" >
+                    <!-- Close button -->
+                    <Button Grid.Row="0" Text="x" HorizontalOptions="End" HeightRequest="35" WidthRequest="35" Command="{Binding ClosePopupCommand}"/>
+                    <!-- Event name -->
+                    <Label Grid.Row="1" Text="{Binding SelectedEvenement.Naam}" FontAttributes="Bold" FontSize="Medium" Margin="5"/>
+                    <!-- Date and time -->
+                    <HorizontalStackLayout Grid.Row="2" Margin="5">
+                        <!-- Event date -->
+                        <Label Text="{Binding SelectedEvenement.Datum, StringFormat='{0:dd MMMM yyyy}'}"/>
+                        <Label Text=", "/>
+                        <!-- Event time -->
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding SelectedEvenement.Startuur, Converter={StaticResource TimeSpanToShortTimeConverter}}"/>
+                            <Label Text=" - "/>
+                            <Label Text="{Binding SelectedEvenement.Einduur, Converter={StaticResource TimeSpanToShortTimeConverter}}"/>
+                        </HorizontalStackLayout>
+                    </HorizontalStackLayout>
+                    <!-- Available places -->
+                    <HorizontalStackLayout Grid.Row="3" Margin="5">
+                        <Label Text="Beschikbare plaatsen: "/>
+                        <Label Text="{Binding Path=BindingContext.BeschikbarePlaatsen, Source={x:Reference EventKalenderPage}}"/>
+                        <Label Text=" Volzet!" TextColor="Red" FontAttributes="Bold" IsVisible="{Binding BeschikbarePlaatsen, Converter={StaticResource GreaterThanZeroConverterVolzet}}"/>
+                    </HorizontalStackLayout>
+                    <!-- Extra information -->
+                    <HorizontalStackLayout Grid.Row="4" Margin="5">
+                        <Label Text="Extra info: "/>
+                        <Label Text="{Binding SelectedEvenement.ExtraInfo}" LineBreakMode="WordWrap" VerticalOptions="Start" HorizontalOptions="FillAndExpand"/>
+                    </HorizontalStackLayout>
+                    <!-- Cost -->
+                    <HorizontalStackLayout Grid.Row="5" Margin="5">
+                        <Label Text="Kostprijs: "/>
+                        <Label Text="{Binding SelectedEvenement.Kostprijs}"/>
+                    </HorizontalStackLayout>
+                    <!--Extra informatie van speler-->
+                    <HorizontalStackLayout Grid.Row="6" Margin="5">
+                        <Label Text="Persoonlijke ID?" VerticalOptions="Center"/>
+                        <Entry Placeholder="Geef jouw persoonlijke ID op" Text="{Binding SpelerInformatie}"/>
+                    </HorizontalStackLayout>
+                    <!--Inschrijfknop-->
+                    <HorizontalStackLayout Grid.Row="7" HorizontalOptions="Center" Margin="5">
+                        <Button Text="Schrijf je in" Command="{Binding InschrijvenCommand}" IsEnabled="{Binding BeschikbarePlaatsen, Converter={StaticResource GreaterThanZeroConverterInschrijven}}"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Frame>
+        </ContentView>
+    </Grid>
+</ContentPage>

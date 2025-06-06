@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Companion.Models"
+             xmlns:viewmodels="clr-namespace:Companion.ViewModels"
+             x:DataType="viewmodels:AccountViewModel"
+             x:Class="Companion.Views.AccountPage">
+
+   
+    <Grid RowDefinitions="300,100,200,*">
+            <Image Grid.Row="0" Source="startspeler_plezier.png" VerticalOptions="Start" WidthRequest="500" />
+        <VerticalStackLayout HorizontalOptions="Center" Grid.Row="1" Margin="0,25,0,0">
+            <Label Text="Jouw accountgegevens" FontSize="Title"/>
+        </VerticalStackLayout>
+        <Frame  Grid.Row="2" HeightRequest="200" WidthRequest="350" >
+            <VerticalStackLayout HorizontalOptions="Center" >
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="Username: " VerticalOptions="Center" WidthRequest="100" />
+                    <Label Text="{Binding UserName}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="Voornaam: " VerticalOptions="Center" WidthRequest="100" />
+                    <Label Text="{Binding Voornaam}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="Naam: " VerticalOptions="Center" WidthRequest="100" />
+                    <Label Text="{Binding Naam}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="E-mailadres: " VerticalOptions="Center" WidthRequest="100" />
+                    <Label Text="{Binding Email}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        <Button Grid.Row="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="0,20,0,0" HeightRequest="50" WidthRequest="150" VerticalOptions="Start"/>
+
+
+    </Grid>
+
+
+
+</ContentPage>

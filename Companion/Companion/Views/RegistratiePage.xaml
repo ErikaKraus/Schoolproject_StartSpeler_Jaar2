@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Companion.Models"
+             xmlns:viewmodels="clr-namespace:Companion.ViewModels"
+             xmlns:converters="clr-namespace:Companion.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viewmodels:RegistratieViewModel"             
+             x:Class="Companion.Views.RegistratiePage"
+             Title="RegistratiePage">
+
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center">
+            <Image Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid RowDefinitions="80,*,*" WidthRequest="300">
+        <Label Grid.Row="0" Text="Maak een nieuw account aan" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Frame Grid.Row="1">
+            <VerticalStackLayout>                
+            <HorizontalStackLayout>
+                <Label Text="Voornaam" VerticalOptions="Center" WidthRequest="110"/>
+                <Entry Placeholder="Voornaam" Text="{Binding Voornaam}" WidthRequest="200" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="Naam" VerticalOptions="Center" WidthRequest="110"/>
+                <Entry Placeholder="Naam" Text="{Binding Naam}" WidthRequest="200" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="Gebruikersnaam" VerticalOptions="Center" WidthRequest="110"/>
+                <Entry Placeholder="Gebruikersnaam" Text="{Binding UserName}" WidthRequest="200" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="E-mailadres" VerticalOptions="Center" WidthRequest="110"/>
+                <Entry Placeholder="E-mailadres" Text="{Binding Email}" Keyboard="Email" WidthRequest="200" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="Wachtwoord" VerticalOptions="Center" WidthRequest="110"/>
+                <Entry Placeholder="Wachtwoord" Text="{Binding Password}" IsPassword="True" WidthRequest="200" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="Wachtwoord herhalen" VerticalOptions="Center" WidthRequest="110"/>
+                <Entry Placeholder="Bevestig Wachtwoord" Text="{Binding ConfirmPassword}" IsPassword="True" WidthRequest="200" />
+            </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        <Button Grid.Row="2" Text="Registreren" Command="{Binding RegisterCommand}" Margin="20" WidthRequest="200" HeightRequest="50" VerticalOptions="Start"  />
+
+
+    </Grid>
+
+
+		
+
+</ContentPage>

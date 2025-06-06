@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Kassa.Models"
+             x:Class="Kassa.Views.RollenbeheerPage"
+             Title="RollenbeheerPage">
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <VerticalStackLayout>
+        <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+            <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+            <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+            <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+        </Grid>
+
+        <Grid ColumnDefinitions="200,200,*,*" RowDefinitions="60,*" RowSpacing="10" ColumnSpacing="10">
+            <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center">Gebruikernaam bevat:</Label>
+            <SearchBar  Grid.Row="0" Grid.Column="1" Placeholder="zoekveld"  SearchCommand="{Binding ZoekUsersCommand}" Text="{Binding Zoekterm}"  />
+            <Button Margin="5" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Text="Update Rollen" Command="{Binding PasRollenAanCommand}"/>
+            <Button Margin="5" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1" Text="Update Password" Command="{Binding PasswordUpdateCommand}"/>
+
+            <Frame Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2">
+                <CollectionView  ItemsSource="{Binding Gebruikers}" EmptyView="Nobody Found"
+                SelectionMode="Single" SelectedItem="{Binding selected_gebruiker}" SelectionChangedCommand="{Binding GebruikerGeselecteerdCommand}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Gebruiker">
+                            <Grid ColumnDefinitions="200,*,*,*,*">
+                                <HorizontalStackLayout Grid.Column="0">
+                                    <Label Text="{Binding Voornaam}"/>
+                                    <Label Text="_"/>
+                                    <Label Text="{Binding Naam}"/>
+                                </HorizontalStackLayout>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+
+            <Grid Grid.Row="1" Grid.Column="2" RowDefinitions="*,*,*,*" ColumnDefinitions="30,*">
+                <CheckBox Grid.Row="0" Grid.Column="0" IsChecked="{Binding FutureSpeler, Mode=TwoWay}" />
+                <Label Grid.Row="0" Grid.Column="1" Text="Speler" VerticalOptions="Center"/>
+                <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding FutureOber, Mode=TwoWay}"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="Ober" VerticalOptions="Center"/>
+                <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding FutureComMan, Mode=TwoWay}"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="Community Manager" VerticalOptions="Center"/>
+                <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding FutureBeheerder, Mode=TwoWay}"/>
+                <Label Grid.Row="3" Grid.Column="1" Text="Beheerder" VerticalOptions="Center"/>
+            </Grid>
+
+            <Entry Grid.Row="1" Grid.Column="3" Placeholder="new_password" Text="{Binding NewPassword}"  HeightRequest="50" Margin="10"  />
+        </Grid>
+
+    </VerticalStackLayout>
+
+</ContentPage>

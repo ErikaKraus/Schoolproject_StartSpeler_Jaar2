@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Companion.Models"
+             xmlns:viewmodels="clr-namespace:Companion.ViewModels"
+             x:DataType="viewmodels:StartschermViewModel"
+             x:Class="Companion.Views.StartschermPage">
+
+
+    <Grid RowDefinitions="300,100,50,50,50">
+        <Grid Grid.Row="0" RowDefinitions="*,*" ColumnDefinitions="*,*">
+            <Image Grid.RowSpan="2" Grid.ColumnSpan="2" Source="startspeler_plezier.png" VerticalOptions="Start" WidthRequest="500" />
+            <Button Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Text="Uitloggen" Command="{Binding LogoutCommand}" />
+        </Grid>
+
+        <VerticalStackLayout Grid.Row="1" Margin="0,20,0,0">
+            <HorizontalStackLayout HorizontalOptions="Center" >
+                <Label Text="Welkom,"  FontSize="Large"/>
+                <Label Text=" "/>
+                <Label Text="{Binding UserName}"  FontSize="Large"/>
+                <Label Text="!"  FontSize="Large"/>
+            </HorizontalStackLayout>
+            <Label Text="Navigeer naar de gewenste pagina." HorizontalOptions="Center" Margin="0,10,0,0" FontSize="Medium"/>
+        </VerticalStackLayout>
+
+        <Button Grid.Row="2" Text="Bestellen" Command="{Binding GoToBestelmenuCommand}" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="200" />
+        <Button Grid.Row="3" Text="Events" Command="{Binding GoToEventkalenderCommand}" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="200"/>
+        <Button Grid.Row="4"  Text="Account" Command="{Binding GoToAccountCommand}" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="200"/>
+
+    </Grid>
+</ContentPage>

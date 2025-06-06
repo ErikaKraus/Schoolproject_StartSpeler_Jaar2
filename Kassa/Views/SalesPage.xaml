@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Kassa.ViewModels"
+             x:DataType="viewmodels:SalesViewModel"
+             x:Class="Kassa.Views.SalesPage"
+             Title="{Binding Title}">
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <VerticalStackLayout>
+        <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+            <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+            <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+            <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+        </Grid>
+
+
+        <Grid RowDefinitions="60,*" ColumnDefinitions="*,*,*" RowSpacing="5" ColumnSpacing="5" >
+            <Button Text="Bereken Dagomzet" Grid.Row="0" Grid.Column="2" Margin="5" Command="{Binding BerekenDagomzetCommand}"/>
+            <DatePicker Grid.Row="1" Grid.Column="0" Date="{Binding Dagtijdstip}"/>
+
+            <Frame Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BackgroundColor="LightGray" BorderColor="DarkGray" Margin="5" CornerRadius="5">
+                <VerticalStackLayout>
+                    <Label Text="{Binding Overzicht}"/>
+                    <Label Text="=========================="/>
+                    <Label Text="{Binding DagomzetString}"/>
+                </VerticalStackLayout>
+                
+            </Frame>
+
+        </Grid>
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Kassa.ViewModels"
+             xmlns:model="clr-namespace:Kassa.Models"
+             x:DataType="viewmodel:ThemaViewModel"
+             x:Class="Kassa.Views.ThemaPage"
+             Title="{Binding Title}">
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center">
+            <Image Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+        </Grid>
+    </Shell.TitleView>
+    
+    <VerticalStackLayout>
+        <Label Text="Dark Mode" VerticalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+        <Switch x:Name="ToggleTheme" 
+            IsToggled="{Binding IsToggled}" 
+            Toggled="OnToggled" />
+    </VerticalStackLayout>
+</ContentPage>

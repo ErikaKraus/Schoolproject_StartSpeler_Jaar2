@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Kassa.Models"
+             xmlns:viewmodels="clr-namespace:Kassa.ViewModels"
+             xmlns:converters="clr-namespace:Kassa.Converters"
+             x:DataType="viewmodels:HomeViewModel"
+             x:Class="Kassa.Views.HomePage">
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <VerticalStackLayout>
+        <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+            <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+            <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+            <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+        </Grid>
+
+
+        <Grid ColumnDefinitions="*,*,*" Padding="10">
+
+            <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray" BorderColor="Black" Margin="5" HeightRequest="500">
+                <VerticalStackLayout >
+                    <VerticalStackLayout>
+                        <Label Text="Bestellingen" FontSize="Header" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="80" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Button Text="Bestelmenu" FontSize="Small" IsEnabled="{Binding beheerderAndOber}" Command="{Binding GoToBestelmenuCommand}" />
+                        <Button Text="Lopende bestellingen" FontSize="Small" IsEnabled="{Binding beheerderAndOber}" Command="{Binding GoToToDoBestellingCommand}" />
+                        <Button Text="Afrekenen" FontSize="Small" IsEnabled="{Binding beheerderAndOber}" Command="{Binding GoToKlantAfrekenenCommand}" />
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="LightGray" BorderColor="Black" Margin="5" HeightRequest="500">
+                <VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="Events" FontSize="Header" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="80"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="10">
+                        <Button Text="Eventbeheer" FontSize="Small" IsEnabled="{Binding beheerderAndCommunity}" Command="{Binding GoToEventbeheerCommand}"/>
+                        <Button Text="Inschrijvingenbeheer" FontSize="Small" IsEnabled="{Binding beheerderAndCommunity}" Command="{Binding GoToEventInschrijvingCommand}"/>
+                        <Button Text="Eventgeschiedenis" FontSize="Small" IsEnabled="{Binding beheerderAndCommunity}" Command="{Binding GoToEventgeschiedenisCommand}"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray" BorderColor="Black" Margin="5" HeightRequest="500">
+                <VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="Admin" FontSize="Header" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="80" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="10">
+                        <Button Text="Rollenbeheer" FontSize="Small" IsEnabled="{Binding onlyBeheerder}" Command="{Binding GoToRollenbeheerCommand}"/>
+                        <Button Text="Voorraadbeheer" FontSize="Small" IsEnabled="{Binding beheerderAndOber}" Command="{Binding GoToVoorraadbeheerCommand}" />
+                        <Button Text="Sales" FontSize="Small" IsEnabled="{Binding onlyBeheerder}" Command="{Binding GoToSalesCommand}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+        </Grid>
+
+    </VerticalStackLayout>
+
+</ContentPage>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Kassa.Models"
+             x:Class="Kassa.Views.ToDoBestellingPage"
+             xmlns:viewmodels="clr-namespace:Kassa.ViewModels"
+             xmlns:converters="clr-namespace:Kassa.Converters"
+             x:DataType="viewmodels:ToDoBestellingViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TableToColorConvertor x:Key="TafelNaarKleurConvertor"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <VerticalStackLayout>
+        <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+            <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+            <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+            <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+        </Grid>
+
+
+        <VerticalStackLayout Spacing="5" Padding="5">
+            <CollectionView  ItemsSource="{Binding Bestellinglijnen}" EmptyView="Geen Bestellingen">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:BestellingLijn" >
+                        <Grid ColumnDefinitions="50,15,80,100,*,*,*,95,80" RowSpacing="5">
+                            <Label Grid.Column="0" BackgroundColor="{Binding Bestelling.Tafelnummer, Converter={StaticResource TafelNaarKleurConvertor }}" Text="tafelnr: "/>
+                            <Label Grid.Column="1" BackgroundColor="{Binding Bestelling.Tafelnummer, Converter={StaticResource TafelNaarKleurConvertor }}" Text="{Binding Bestelling.Tafelnummer }"/>
+                            <Label Grid.Column="2" Text="Gebruiker: "/>
+                            <Label Grid.Column="3" Text="{Binding Bestelling.Gebruiker.Voornaam }"/>
+                            <Label Grid.Column="4" Text="{Binding Artikel.Naam}"/>
+                            <Label Grid.Column="5" Text="{Binding aantal}"/>
+                            <Label Grid.Column="6" Text="{Binding Bestelling.Commentaar}"/>
+                            <Button Grid.Column="7" Text="Geleverd" Margin="2" Command="{Binding GeleverdCommand}"/>
+                            <Button Grid.Column="8" Text="Cancel"  Margin="2" Command="{Binding CancelCommand}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

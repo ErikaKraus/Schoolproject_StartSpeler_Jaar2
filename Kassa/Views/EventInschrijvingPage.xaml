@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Kassa.Models"
+             xmlns:viewmodels="clr-namespace:Kassa.ViewModels"
+             xmlns:converters="clr-namespace:Kassa.Converters"
+             x:DataType="viewmodels:EventInschrijvingViewModel"
+             x:Class="Kassa.Views.EventInschrijvingPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
+        <converters:GreaterThanZeroConverter x:Key="GreaterThanZeroConverter"/>
+        <converters:TimeSpanToShortTimeConverter x:Key="TimeSpanToShortTimeConverter"/>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <Grid  VerticalOptions="Center" ColumnDefinitions="*,*,*,*">
+
+            <Image Grid.ColumnSpan="4" Source="startspelerlogo.png" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Label Grid.Column="3" TextColor="White"  Text="{Binding Username}" FontSize="Small" HorizontalOptions="End" Margin="10" VerticalOptions="End"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <ScrollView>
+
+        <VerticalStackLayout>
+            <Grid Background="#293275" ColumnDefinitions="*,*,*,*" HeightRequest="60">
+                <Button Grid.Column="0" Text="Home" Command="{Binding GoHomeCommand}" Margin="5" HorizontalOptions="Start"  BorderWidth="0.5" BorderColor="White" />
+                <Button Grid.Column="3" Text="Uitloggen" Command="{Binding LogoutCommand}" Margin="5" HorizontalOptions="End" BorderWidth="0.5" BorderColor="White"   />
+                <Label  Grid.ColumnSpan="4" TextColor="White" Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Small" />
+            </Grid>
+
+
+            <Grid RowDefinitions="*" ColumnDefinitions="450,*">
+                <!--EVENTS-->
+                <Grid Grid.Row="0" Grid.Column="0" RowDefinitions="auto,*" >
+                    <!--community filter-->
+                    <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Margin="10">
+                        <Button Text="Alle events" Command="{Binding ToonAlleEventsCommand}" WidthRequest="100" HorizontalOptions="Start"/>
+                        <Label Text="Filter op community" Margin="10" />
+                        <Picker SelectedItem="{Binding SelectedCommunity}" ItemsSource="{Binding Communities}" SelectedIndexChanged="OnCommunitySelected" WidthRequest="175">
+                            <Picker.ItemDisplayBinding>
+                                <Binding Path="Naam"/>
+                            </Picker.ItemDisplayBinding>
+                        </Picker>
+                    </HorizontalStackLayout>
+                    <!--overzicht events-->
+                    <ScrollView Grid.Row="1" Grid.Column="0" Grid.RowSpan="4">
+                        <CollectionView ItemsSource="{Binding FilteredEvenementen}" EmptyView="Geen evenementen om weer te geven!" SelectionMode="Single" SelectedItem="{Binding SelectedEvenement}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Evenement">
+                                    <VerticalStackLayout Padding="10">
+                                        <Label>
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0:dd MMMMM yyyy} - {1}">
+                                                    <Binding Path="Datum"/>
+                                                    <Binding Path="Naam"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </Grid>
+
+                <!--INSCHRIJVINGEN-->
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid RowDefinitions="*,*,*,*,*,*,*" ColumnDefinitions="*,*">
+                        <!--titel - detailoverzicht evenement-->
+                        <VerticalStackLayout Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Text="Deelnemers inschrijven" FontSize="Large" />
+                        </VerticalStackLayout>
+
+                        <!--Naam evenement-->
+                        <VerticalStackLayout Grid.Row="1" Margin="0,10,0,0">
+                            <Label Text="{Binding SelectedEvenement.Naam}" FontSize="Large" FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+
+                        <!--details evenement-->
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="0" Spacing="10" Margin="0,10,0,0" >
+                            <HorizontalStackLayout>
+                                <Label Text="Datum:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.Datum, StringFormat='{0:dd/MM/yyyy}'}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Startuur:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.Startuur, Converter={StaticResource TimeSpanToShortTimeConverter}}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Einduur:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.Einduur, Converter={StaticResource TimeSpanToShortTimeConverter}}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Community:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.CommunityId}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Kostprijs:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.Kostprijs, StringFormat='€ {0}'}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Extra info:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.ExtraInfo}" WidthRequest="250"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Aantal plaatsen:" WidthRequest="150"/>
+                                <Label Text="{Binding SelectedEvenement.MaxDeelnemersEvent}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Beschikbare plaatsen:" WidthRequest="150"/>
+                                <Label Text="{Binding ResterendePlaatsen}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Het evenement is volzet!" TextColor="Red" FontSize="Large" IsVisible="{Binding ResterendePlaatsen, Converter={StaticResource IntToBoolConverter}}"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!--inschrijvingspagina-->
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="10" VerticalOptions="Start" Margin="0,10,0,0" >
+                            <HorizontalStackLayout>
+                                <Label Text="Event ID:" VerticalOptions="Center" WidthRequest="100"/>
+                                <Label Text="{Binding SelectedEvenement.Id}" WidthRequest="200"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Username:" VerticalOptions="Center" WidthRequest="100"/>
+                                <Entry Placeholder="Username" Text="{Binding Gebruiker.UserName}" WidthRequest="200"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Aantal deelnemers:" VerticalOptions="Center" WidthRequest="100"/>
+                                <Entry Placeholder="Aantal deelnemers" Text="{Binding AantalDeelnemers, Mode=TwoWay}" WidthRequest="200"/>
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding Waarschuwingstekst}" TextColor="Red" IsVisible="{Binding ToonWaarschuwing}"/>
+                            
+                            <!--buttons-->
+                            <HorizontalStackLayout Spacing="10" VerticalOptions="End" Margin="0,10,0,0" >
+                                <Button Text="Inschrijven" Command="{Binding InschrijvenCommand}" IsEnabled="{Binding ResterendePlaatsen, Converter={StaticResource GreaterThanZeroConverter}}" WidthRequest="115"/>
+                                <Button Text="Deselecteren" Command="{Binding ResetFormulierCommand}"  WidthRequest="175"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                      
+
+
+                        <!--Scheidingslijn-->
+                        <VerticalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                            <BoxView HeightRequest="5" Color="DarkBlue" HorizontalOptions="FillAndExpand" Margin="0,10"/>
+                        </VerticalStackLayout>
+
+                        <!--Titel - deelnames wijzigen-->
+                        <VerticalStackLayout Grid.Row="4" Grid.Column="0" Margin="0,10,0,0">
+                            <Label Text="Deelnames wijzigen" FontSize="Large" />
+                        </VerticalStackLayout>
+
+                        <!--titel - overzicht deelnemers-->
+                        <VerticalStackLayout Grid.Row="5" Grid.Column="0" Margin="0,10,0,0">
+                            <Label Text="Overzicht deelnemers" FontSize="Title"/>
+                        </VerticalStackLayout>
+
+                        <!--Lijst deelnemers-->
+                        <ScrollView Grid.Row="6" Grid.Column="0" VerticalOptions="Start" Margin="0,10,0,0">
+                            <CollectionView ItemsSource="{Binding IngeschrevenGebruikers}" SelectionMode="Single" SelectedItem="{Binding SelectedGebruiker}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Gebruiker">
+                                        <VerticalStackLayout Padding="10">
+                                            <Label>
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0} - {1} deelnemers ({2} {3})">
+                                                        <Binding Path="UserName"/>
+                                                        <Binding Path="AantalDeelnemers"/>
+                                                        <Binding Path="Voornaam"/>
+                                                        <Binding Path="Naam"/>
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+
+                        <!--titel - deelnames wijzigen-->
+                        <VerticalStackLayout Grid.Row="5" Grid.Column="1" Margin="0,10,0,0" >
+                            <Label Text="Deelname wijzigen" FontSize="Title"/>
+                        </VerticalStackLayout>
+
+                        <!--wijzigen velden-->
+                            <VerticalStackLayout  Grid.Row="6" Grid.Column="1" Margin="0,10,0,0" VerticalOptions="Start" Spacing="10" >
+                                <HorizontalStackLayout>
+                                    <Label Text="Username:" VerticalOptions="Center" WidthRequest="100"/>
+                                    <Label Text="{Binding SelectedGebruiker.UserName}" WidthRequest="175"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Voornaam:" VerticalOptions="Center" WidthRequest="100"/>
+                                    <Entry Placeholder="Voornaam" Text="{Binding Gebruiker.Voornaam}" WidthRequest="175"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Naam:" VerticalOptions="Center" WidthRequest="100"/>
+                                    <Entry Placeholder="Naam" Text="{Binding Gebruiker.Naam}" WidthRequest="175"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Aantal deelnemers:" VerticalOptions="Center" WidthRequest="100"/>
+                                    <Entry Placeholder="Aantal deelnemers" Text="{Binding AantalDeelnemers, Mode=TwoWay}" WidthRequest="175"/>
+                                </HorizontalStackLayout>
+                            <!--knoppen-->
+                            <HorizontalStackLayout Spacing="10">
+                                <Button Text="Wijzigen" Command="{Binding WijzigenCommand}" WidthRequest="125"  />
+                                <Button Text="Uitschrijven" Command="{Binding UitschrijvenCommand}" WidthRequest="125"  />
+                                <Button Text="Deselecteren" Command="{Binding ResetFormulierCommand}"  WidthRequest="125"/>
+                            </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <!--
+                            <VerticalStackLayout VerticalOptions="End" Spacing="10" >
+                                <Button Text="Wijzigen" Command="{Binding WijzigenCommand}" WidthRequest="150"  />
+                                <Button Text="Uitschrijven" Command="{Binding UitschrijvenCommand}" WidthRequest="150"  />
+                                <Button Text="Deselecteren" Command="{Binding ResetFormulierCommand}"  WidthRequest="150"/>
+                            </VerticalStackLayout>-->
+                    </Grid>
+                </Grid>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Companion.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Companion.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Companion">
+
+    <ShellContent 
+        ContentTemplate="{DataTemplate views:LoginschermPage}"
+        Route="LoginschermPage" />
+    <!--IsVisible="False" />-->
+
+    <ShellContent 
+        ContentTemplate="{DataTemplate views:RegistratiePage}"
+        Route="RegistratiePage" />
+    <!--IsVisible="False" />-->
+
+    <TabBar x:Name="MyTabBar">
+        <Tab Title="Home" Icon="home_zwart.png">
+            <ShellContent 
+                 ContentTemplate="{DataTemplate views:StartschermPage}"
+                 Route="StartschermPage"/>
+        </Tab>
+        <Tab Title="Bestellen" Icon="bestellen_zwart.png">
+            <ShellContent 
+                 ContentTemplate="{DataTemplate views:BestelmenuPage}"
+                 Route="BestelmenuPage"/>
+        </Tab>
+        <Tab Title="Events" Icon="kalender_zwart.png">
+            <ShellContent 
+                 ContentTemplate="{DataTemplate views:EventkalenderPage}"
+                 Route="EventkalenderPage"/>
+        </Tab>
+        <Tab Title="Account" Icon="account_zwart.png">
+            <ShellContent 
+                 ContentTemplate="{DataTemplate views:AccountPage}"
+                 Route="AccountPage"/>
+        </Tab>
+        <!--<Tab Title="Inloggen" Icon="account_zwart.png">
+            <ShellContent 
+                 ContentTemplate="{DataTemplate views:LoginschermPage}"
+                 Route="LoginschermPage"/>
+        </Tab>
+        <Tab Title="Registeren" Icon="account_zwart.png">
+            <ShellContent 
+                ContentTemplate="{DataTemplate views:RegistratiePage}"
+                Route="RegistratiePage"/>
+        </Tab>-->
+    </TabBar>
+
+</Shell>
